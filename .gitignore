@@ -1,0 +1,11 @@
+# Sanal ortamlar
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Yerel veri (python -m data.update ile yeniden oluşturulur)
+web/scanner-web/data/market.db
+web/scanner-web/data/*.db-journal

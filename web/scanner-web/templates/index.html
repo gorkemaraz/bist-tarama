@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BIST Tarama</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>BIST Tarama</h1>
+      <span class="muted small">Mum formasyonları ve indikatör sinyalleri · günlük kapanış</span>
+    </div>
+    <div class="dataBox">
+      <div id="dataInfo" class="muted">Veri durumu yükleniyor…</div>
+      <div id="updateLog" class="log muted"></div>
+      <button id="updateBtn" class="btn ghost">Veriyi Güncelle</button>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="side">
+      <div class="sideTools">
+        <label class="muted small">Sinyal penceresi
+          <select id="days">
+            <option value="1">Son işlem günü</option>
+            <option value="3">Son 3 gün</option>
+            <option value="5">Son 5 gün</option>
+            <option value="10">Son 10 gün</option>
+          </select>
+        </label>
+        <button id="leaderBtn" class="btn ghost">Formasyon Karnesi</button>
+      </div>
+      <nav id="scanGroups" class="scanList"></nav>
+    </aside>
+
+    <main class="main">
+      <section class="filters">
+        <span class="small"><b>Bağlam filtreleri</b> <span class="muted">(VE)</span></span>
+        <div id="filterBar" class="chips"></div>
+        <button id="clearFilters" class="linkBtn" hidden>Temizle</button>
+      </section>
+
+      <section class="workspace">
+        <div class="resultsPane">
+          <div class="paneHead">
+            <b id="resultsTitle">Sonuçlar</b>
+            <span id="status" class="muted small"></span>
+          </div>
+          <div id="scanDesc" class="scanDesc muted small" hidden></div>
+          <div class="tableScroll">
+            <table>
+              <thead>
+                <tr>
+                  <th data-key="symbol">Sembol</th>
+                  <th data-key="date">Tarih</th>
+                  <th data-key="close" class="num">Kapanış</th>
+                  <th data-key="change_pct" class="num">Değ.</th>
+                  <th data-key="rel_volume" class="num" title="Sinyal günü hacmi / önceki 20 gün ortalaması">Gör. Hacim</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"><tr><td colspan="5" class="muted">Soldan bir tarama seç.</td></tr></tbody>
+            </table>
+          </div>
+          <div class="paneFoot muted small">↑ ↓ ile hisseler arasında gezin</div>
+        </div>
+
+        <div class="chartPanel">
+          <div class="chartHead">
+            <b id="chartTitle">Grafik</b>
+            <span class="legend muted">
+              <i class="sw ema20"></i>EMA20 <i class="sw ema50"></i>EMA50 <i class="sw sig"></i>Sinyal
+            </span>
+          </div>
+          <div class="chartBox">
+            <div id="chart"></div>
+            <div id="chartEmpty" class="chartEmpty muted">Tarama çalıştır, sonra satıra tıkla.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="btSection" class="bt" hidden>
+        <div class="resultsHead">
+          <h2 id="btTitle">Backtest</h2>
+          <span id="btControls"></span>
+          <button id="btClose" class="iconBtn" title="Kapat">✕</button>
+        </div>
+        <div id="btBody"></div>
+        <p class="note muted">
+          Giriş: sinyalden sonraki günün açılışı · Çıkış: N işlem günü sonraki kapanış · Gidiş-dönüş %0,2 komisyon düşüldü.
+          <b>Fark</b> = sinyal ortalaması − aynı dönemde tüm hisse/günlerin ortalaması (piyasa yükselirken her sinyal kazandırır; asıl soru farktır).
+          <b>İsabet</b>: yükseliş sinyalinde yükselen, düşüş sinyalinde düşen işlem oranı.
+          <b>t</b> ≥ 2 genelde anlamlı sayılır, ancak aynı gün birçok hissede sinyal çıktığı için iyimserdir.
+          <b>İlk / Son dönem</b>: fark, verinin ilk %60'ında ve son %40'ında ayrı ölçülür; ✓ iki dönemde de beklenen yönde demektir.
+          Çok sayıda filtre denendikçe şans eseri iyi görünen sonuç bulma ihtimali artar; tutarlı olmayanlara güvenme.
+          Sadece bugün işlem gören hisseler test edildi (hayatta kalma yanlılığı). Geçmiş performans geleceği garanti etmez.
+        </p>
+      </section>
+
+      <details class="issues">
+        <summary>Veri kalite raporu <span id="issueCount" class="muted"></span></summary>
+        <div id="issueBody"></div>
+      </details>
+    </main>
+  </div>
+
+  <script src="/static/vendor/lightweight-charts.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

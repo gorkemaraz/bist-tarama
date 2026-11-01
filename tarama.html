@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kişisel Tarama Merkezi</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        --bg: #f5f6fb;
+        --panel: #ffffff;
+        --primary: #2f5dff;
+        --primary-dark: #1c3db6;
+        --text: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --success: #16a34a;
+        --warning: #f59e0b;
+        --error: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      header {
+        background: radial-gradient(circle at top left, #6d7bff, #2f5dff 55%, #1a2b7d);
+        color: #fff;
+        padding: 48px 24px 56px;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+        margin: 0 0 12px;
+      }
+
+      .hero p {
+        margin: 0;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 640px;
+      }
+
+      main {
+        padding: 36px 24px 64px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 20px;
+        display: grid;
+        gap: 12px;
+        box-shadow: 0 18px 24px rgba(15, 23, 42, 0.08);
+      }
+
+      .card h3 {
+        margin: 0;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .card button {
+        border: none;
+        background: var(--primary);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .card button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .card button:disabled {
+        background: #cbd5f5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--muted);
+        background: #f3f4f6;
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+
+      .panel {
+        margin-top: 28px;
+        background: var(--panel);
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        padding: 22px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+
+      .status span {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--warning);
+      }
+
+      .status.success span {
+        background: var(--success);
+      }
+
+      .status.error span {
+        background: var(--error);
+      }
+
+      .result {
+        background: #f3f4f6;
+        border-radius: 12px;
+        padding: 16px;
+        font-family: "Fira Code", "Cascadia Code", monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        min-height: 140px;
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      details {
+        background: #f9fafb;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+      }
+
+      details summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      code {
+        font-family: "Fira Code", "Cascadia Code", monospace;
+      }
+
+      footer {
+        text-align: center;
+        padding: 24px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container hero">
+        <h1>Kişisel Tarama Merkezi</h1>
+        <p>
+          Python ile hazırladığınız taramaları tek panelde başlatın. Aşağıdaki butonlar, seçilen
+          taramayı API üzerinden çağırıp sonucu anında gösterir.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section>
+        <h2>Aktif Taramalar</h2>
+        <div class="grid">
+          <article class="card">
+            <div class="badge">Hazır</div>
+            <h3>Three Inside Up</h3>
+            <p>Üç mumluk dönüş formasyonunu yakalayan tarama.</p>
+            <button data-scan="three-inside-up">Taramayı Başlat</button>
+          </article>
+          <article class="card">
+            <div class="badge">Yakında</div>
+            <h3>RSI Aşırı Satım</h3>
+            <p>RSI 30 altında olan fırsatları listeleyin.</p>
+            <button disabled>Yakında</button>
+          </article>
+          <article class="card">
+            <div class="badge">Yakında</div>
+            <h3>Hacim Patlaması</h3>
+            <p>Ortalama hacme göre artışı tespit edin.</p>
+            <button disabled>Yakında</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" id="results">
+        <div class="status" id="status">
+          <span></span>
+          Hazır: Bir tarama seçin.
+        </div>
+        <div class="result" id="result">
+          Sonuçlar burada görünecek.
+        </div>
+        <p class="note">
+          API beklenen format: <code>POST /api/scans/three-inside-up</code> →
+          <code>{"symbol": "THYAO.IS", "signal": "positive"}</code> gibi JSON döndürmeli.
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Python Tarama Kodu</h2>
+        <p class="note">
+          Aşağıdaki kod, Three Inside Up taramasını çalıştırır. Backend tarafında bu scripti bir API
+          endpointine bağladığınızda arayüz otomatik sonuçları çeker.
+        </p>
+        <details>
+          <summary>Kodu göster</summary>
+          <pre><code>import yfinance as yf
+import pandas as pd
+from datetime import datetime, timedelta
+
+def check_three_inside_up(df):
+    if len(df) &lt; 3:
+        return False
+
+    first, second, third = df.iloc[-3], df.iloc[-2], df.iloc[-1]
+
+    if (
+        first.isna().any() or
+        second.isna().any() or
+        third.isna().any()
+    ):
+        return False
+
+    first_open = float(first['Open'])
+    first_close = float(first['Close'])
+    second_open = float(second['Open'])
+    second_close = float(second['Close'])
+    third_open = float(third['Open'])
+    third_close = float(third['Close'])
+
+    if (
+        (first_close &lt; first_open) and
+        (second_open &gt; first_close) and (second_close &lt; first_open) and
+        (third_close &gt; second_open) and (third_close &gt; first_open) and (third_open &lt; third_close)
+    ):
+        return True
+
+    return False
+
+def find_three_inside_up_stocks():
+    today = datetime.now().strftime('%Y-%m-%d')
+    stocks = ["AKBNK.IS", "GARAN.IS", "THYAO.IS"]
+    three_inside_up_stocks = []
+
+    for stock in stocks:
+        df = yf.download(stock, start=(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d'), end=today)
+        if df.empty or df.isna().any().any():
+            continue
+        if check_three_inside_up(df):
+            three_inside_up_stocks.append(stock)
+
+    return three_inside_up_stocks</code></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer>© 2024 Kişisel Tarama Merkezi</footer>
+
+    <script>
+      const status = document.getElementById("status");
+      const result = document.getElementById("result");
+
+      const setStatus = (message, state = "") => {
+        status.classList.remove("success", "error");
+        if (state) {
+          status.classList.add(state);
+        }
+        status.innerHTML = `<span></span>${message}`;
+      };
+
+      const renderResults = (items) => {
+        if (!items || items.length === 0) {
+          result.textContent = "Bugün Three Inside Up formasyonu görülen hisse yok.";
+          return;
+        }
+        const lines = items.map((item) => `• ${item.symbol ?? item}`).join("\n");
+        result.textContent = `Sonuçlar:\n${lines}`;
+      };
+
+      document.querySelectorAll("button[data-scan]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const scanKey = button.dataset.scan;
+          setStatus(`Tarama çalışıyor: ${scanKey}`);
+          result.textContent = "Python taraması çalıştırılıyor...";
+
+          try {
+            const response = await fetch(`/api/scans/${scanKey}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+            });
+
+            if (!response.ok) {
+              throw new Error("API hatası");
+            }
+
+            const data = await response.json();
+            const items = Array.isArray(data) ? data : data.results || [];
+            setStatus(`Tarama tamamlandı: ${scanKey}`, "success");
+            renderResults(items);
+          } catch (error) {
+            setStatus(`Bağlantı kurulamadı: ${scanKey}`, "error");
+            result.textContent =
+              "Backend henüz bağlı değil. API hazır olduğunda sonuçlar burada görünecek.";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
